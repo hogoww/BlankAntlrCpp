@@ -1,0 +1,19 @@
+Entretiens le 28/03/2018
+Encadrant : David Delahaye
+Présents : Roach Sébastien
+	   Misse-Chanabier Pierre
+	   Jandot Julien
+
+Absents : Izard Arthur
+
+Sujet principal : étape intermédiaire imprévue.
+
+Les taches définies étant plutot complexes, nous avons finalement attendu 3 semaines avant de refaire un RDV.
+
+A ce jour, nous avons réussi à intégrer les bases du preprocesseur C à la grammaire, et fait les ébauches de la génération de l'implémentaion à partir du header.
+
+Nous allons continuer à améliorer ces deux parties, en augmentant le nombre de tests, en les automatisants.
+
+Nous allons également essayer d'améliorer le système de template, et de générer le header à partir de l'implémentation.
+
+Nous fairons un nouveau point dans deux semaines.

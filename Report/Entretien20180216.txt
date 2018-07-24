@@ -1,0 +1,18 @@
+Entretiens le 16/02/2018
+Encadrant : David Delahaye
+Présents : Jandot Julien
+	   Izard Arthur
+	   Misse-Chanabier Pierre
+Absents : Roach Sebastien
+
+Sujet principal : Détail et lancement du projet
+
+Nous avons expérimenté le parser C++ conseillé, Antlr 4 (https://github.com/antlr/antlr4) et avons conclu qu’il était fonctionnel même si ardu  à utiliser. 
+Nous avons discuté des prochaines étapes du projet que sont : 
+Effectuer des tests unitaires sur antlr4 pour se familiariser avec son fonctionnement
+Effectuer des tests sur l’AST généré (printer chaque objet et espérer avoir une sortie identique à l’entrée)
+Les deux premiers points doivent être réglés pour le prochain rendez-vous. 
+Une fois le parser maitrisé, commencer à implémenter un premier module qu’est la génération d’un squelette d'implémentation (.cpp) à partir d’un header (.h).
+Mr Delahaye a également proposé une nouvelle idée de module à implémenter qui serait une tentative de simplification et découplage de l'implémentation/déclaration des templates.
+
+La prochaine réunion se déroulera dans deux semaines. 

@@ -1,0 +1,8 @@
+Objectifs de fin de projet de Julien Jandot :
+
+-Faire un script de test pour le programme H to Cpp et écrire un jeu de test adapté
+-Gerer le cas des fonctions virtuelles et virtuelles pure
+-Ecrire un printer adapté le plus possible à tous les listeners, avec des fonctions ciblées sur certains parties du programme (ex : afficher uniquement la liste des fonctions)
+
+Optionnel:
+-Gerer les macros inline

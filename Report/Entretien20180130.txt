@@ -1,0 +1,15 @@
+Entretiens le 30/01/2018
+Encadrant : David Delahaye
+Présents : Jandot Julien
+           Roach Sébastien
+	   Misse-Chanabier Pierre
+Absents : Izard Arthur
+
+Sujet principal : Détail et lancement du projet
+
+Nous avons commencé par discuter des bases du projets.
+Celles ci vont se constituer par la reconnaissance du langage C++, à l'aide d'un parseur trouvé sur internet, que nous adapterons potentiellement pour créer une surcouche selon les besoins des outils que nous developperons.
+Nous avons également parlé des idées d'outils que nous avions. Celles ci ont un fichier spécifique les détaillant.
+Pour finir nous avons parlé de la possibilitée de greffer certains bout d'outils à un ou plusieurs editeur de texte ou IDE dans un second temps.
+
+La prochaine réunion se déroulera dans deux semaines. 
