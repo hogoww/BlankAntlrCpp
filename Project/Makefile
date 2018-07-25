@@ -1,12 +1,11 @@
 ANTLR_HEADER_PATH=../antlr4_runtime_src/
 ANTLR_SOURCE_PATH=../antlr4_runtime/
 ANTLR_EXE=../../antlr-4.7-complete.jar #path from grammar_path for this file only
-TEST_DIRECTORY=./tests
 
 GRAMMAR_PATH=grammar/
 GRAMMAR_OBJECT_PATH=grammar/obj/
 GRAMMAR_NAME=CPP14
-GRAMMAR_FILE_NAME=$(GRAMMAR_NAME).g
+GRAMMAR_FILE_NAME=$(GRAMMAR_NAME).g4
 
 CC=g++
 PROJECT_OPTIONS=-std=c++14 -Wall
@@ -22,7 +21,7 @@ PROJECT_RUNTIME_OBJECTS=$(PROJECT_OBJECTS)*.o
 
 PROJECT_SOURCES=src/
 PROJECT_OBJECTS=obj/
-
+TEST_DIRECTORY=tests/
 
 default_target: inane
 .PHONY : default_target
@@ -69,7 +68,7 @@ gc:
 	cd $(GRAMMAR_PATH) && $(CC) $(ANTLR_HEADERS_SURDIR) $(GRAMMAR_OPTIONS) -c $(GRAMMAR_NAME)Lexer.cpp
 	cd $(GRAMMAR_PATH) && $(CC) $(ANTLR_HEADERS_SURDIR) $(GRAMMAR_OPTIONS) -c $(GRAMMAR_NAME)BaseListener.cpp$
 	cd $(GRAMMAR_PATH) && $(CC) $(ANTLR_HEADERS_SURDIR) $(GRAMMAR_OPTIONS) -c $(GRAMMAR_NAME)Listener.cpp
-	mv $(GRAMMAR_PATH)CPP14*.o $(GRAMMAR_PATH)obj/ 
+	mv $(GRAMMAR_PATH)$(GRAMMAR_NAME)*.o $(GRAMMAR_PATH)obj/ 
 .PHONY : gc
 
 #"clean compilation"
@@ -113,9 +112,19 @@ all:
 
 new_grammar: #should add some kind of verifications
 	@rm -rf $(PROJECT_OBJECTS)* 2>>/dev/null || true
+	@cd $(PROJECT_OBJECTS) && echo "file used so the repositories keep existing empty on git" >> bogus.txt
+
 	@rm -rf $(PROJECT_SOURCES)* 2>>/dev/null || true
+	@cd $(PROJECT_SOURCES) && echo "file used so the repositories keep existing empty on git" >> bogus.txt
+
 	@rm -f $(GRAMMAR_PATH)* 2>>/dev/null || true
+	@cd $(GRAMMAR_PATH) && echo "file used so the repositories keep existing empty on git" >> bogus.txt
+
 	@rm -f $(GRAMMAR_OBJECT_PATH)* 2>>/dev/null || true
-	@rm -rf $(TEST_DIRECTORY)
+	@cd $(GRAMMAR_OBJECT_PATH) && echo "file used so the repositories keep existing empty on git" >> bogus.txt
+
+	@rm -rf $(TEST_DIRECTORY)* 2>>/dev/null || true
+	@cd $(TEST_DIRECTORY) && echo "file used so the repositories keep existing empty on git" >> bogus.txt
+
 	@rm -f *.cpp *.h *.o *~ || true
 .PHONY : new_grammar

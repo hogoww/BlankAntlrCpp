@@ -1,9 +1,0 @@
-Objectifs de fin de projet de Pierre Misse-Chanabier:
-
--Faire des classes d'exploitation (au moins partielle) du preprocesseur.
--Essayer de permettre les commentaires dans le preprocesseur.
--Essayer de permettre l'usage des fonctions macro, sur des types plus général (ergo #define e(int) b var (expand en) int var)
-
-Optionnel:
--Améliorer le script de tests
--Améliorer la compilation des classes individuelles
