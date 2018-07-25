@@ -2,10 +2,10 @@ ANTLR_HEADER_PATH=../antlr4_runtime_src/
 ANTLR_SOURCE_PATH=../antlr4_runtime/
 ANTLR_EXE=../../antlr-4.7-complete.jar #path from grammar_path for this file only
 
-GRAMMAR_PATH=grammar/
-GRAMMAR_OBJECT_PATH=grammar/obj/
 GRAMMAR_NAME=CPP14
 GRAMMAR_FILE_NAME=$(GRAMMAR_NAME).g4
+GRAMMAR_PATH=grammar/
+GRAMMAR_OBJECT_PATH=grammar/obj/
 
 CC=g++
 PROJECT_OPTIONS=-std=c++14 -Wall
@@ -127,4 +127,7 @@ new_grammar: #should add some kind of verifications
 	@cd $(TEST_DIRECTORY) && echo "file used so the repositories keep existing empty on git" >> bogus.txt
 
 	@rm -f *.cpp *.h *.o *~ || true
+
+	@cp ../ressources/simpleMain.cpp .
+	@./scripts/makefile_scripts/grammarNameReplace.py
 .PHONY : new_grammar
