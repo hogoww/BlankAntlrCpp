@@ -1,2 +1,3 @@
 #Need to add main name modularity.
-#improve the simple main for easier use
+#Improve the simple main for easier use
+#Add script to change grammar name everywhere (makefile/simpleMain.cpp ...?)
