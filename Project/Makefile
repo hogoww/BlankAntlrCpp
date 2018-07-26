@@ -1,15 +1,20 @@
+#ANTLR paths
 ANTLR_HEADER_PATH=../antlr4_runtime_src/
 ANTLR_SOURCE_PATH=../antlr4_runtime/
 ANTLR_EXE=../../antlr-4.7-complete.jar #path from grammar_path for this file only
 
+#Grammar stuff
 GRAMMAR_NAME=CPP14
 GRAMMAR_FILE_NAME=$(GRAMMAR_NAME).g4
 GRAMMAR_PATH=grammar/
 GRAMMAR_OBJECT_PATH=grammar/obj/
 
+#Compilation stuff
 CC=g++
 PROJECT_OPTIONS=-std=c++14 -Wall
 GRAMMAR_OPTIONS=-std=c++14
+MAIN_NAME=main
+SIMPLEMAIN_NAME=simpleMain
 
 ANTLR_HEADERS=-I $(ANTLR_HEADER_PATH)
 ANTLR_HEADERS_SURDIR=-I ../$(ANTLR_HEADER_PATH)
@@ -18,7 +23,7 @@ ANTLR_RUNTIME_OBJECT=$(ANTLR_SOURCE_PATH)*.o $(ANTLR_SOURCE_PATH)tree/*.o $(ANTL
 
 PROJECT_RUNTIME_OBJECTS=$(PROJECT_OBJECTS)*.o
 
-
+#projects directories paths
 PROJECT_SOURCES=src/
 PROJECT_OBJECTS=obj/
 TEST_DIRECTORY=tests/
@@ -43,16 +48,15 @@ project:
 	@echo "|Generating Project |"
 	@echo "---------------------"
 	@make project_sources_compilation
-	@rm $(GRAMMAR_PATH)main.o $(GRAMMAR_PATH)simpleMain.o 2>>/dev/null || true #doesn't let that lines error stop compilation. It's not supposed to exist on the first build.
-	$(CC) $(ANTLR_HEADERS) -I $(PROJECT_PROJECT) $(GRAMMAR_PATH) $(PROJECT_OPTIONS) -c main.cpp
-#	@mv main.o $(GRAMMAR_PATH)
+	@rm $(GRAMMAR_PATH)$(MAIN_NAME).o $(GRAMMAR_PATH)$(SIMPLEMAIN_NAME).o 2>>/dev/null || true #doesn't let that lines error stop compilation. It's not supposed to exist on the first build.
+	$(CC) $(ANTLR_HEADERS) -I $(PROJECT_PROJECT) $(GRAMMAR_PATH) $(PROJECT_OPTIONS) -c $(MAIN_NAME).cpp
 	@make linking
 	@echo ""
 	@echo "Compilation of the project finished!"
 .PHONY : project
 
 linking:
-	$(CC) $(ANTLR_HEADERS) $(ANTLR_RUNTIME_OBJECT) $(PROJECT_RUNTIME_OBJECTS) $(GRAMMAR_OBJECT_PATH)*.o $(PROJECT_OPTIONS) main.o -o main
+	$(CC) $(ANTLR_HEADERS) $(ANTLR_RUNTIME_OBJECT) $(PROJECT_RUNTIME_OBJECTS) $(GRAMMAR_OBJECT_PATH)*.o $(PROJECT_OPTIONS) $(MAIN_NAME).o -o $(MAIN_NAME)
 	@echo ""
 	@echo "Compilation of the project finished!"
 .PHONY:linking
@@ -131,10 +135,8 @@ grammar_test:
 	@echo "|Building simple grammar_test|"
 	@echo "------------------------------"
 	@make cg
-	$(CC) $(ANTLR_HEADERS) $(PROJECT_OPTIONS) -c simpleMain.cpp
-#	@mv simpleMain.o $(GRAMMAR_PATH)
-	$(CC) $(ANTLR_HEADERS) $(ANTLR_RUNTIME_OBJECT) $(PROJECT_RUNTIME_OBJECTS) $(GRAMMAR_OBJECT_PATH)*.o $(PROJECT_OPTIONS) simpleMain.o -o simpleMain
-#	$(CC) $(ANTLR_HEADERS) $(ANTLR_RUNTIME_OBJECT) $(GRAMMAR_PATH)*.o $(PROJECT_OPTIONS) -o simpleMain
+	$(CC) $(ANTLR_HEADERS) $(PROJECT_OPTIONS) -c $(SIMPLEMAIN_NAME).cpp
+	$(CC) $(ANTLR_HEADERS) $(ANTLR_RUNTIME_OBJECT) $(PROJECT_RUNTIME_OBJECTS) $(GRAMMAR_OBJECT_PATH)*.o $(PROJECT_OPTIONS) $(SIMPLEMAIN_NAME).o -o $(SIMPLEMAIN_NAME)
 .PHONY: grammar_test
 
 
@@ -172,6 +174,7 @@ new_grammar: #should add some kind of verifications
 	@rm -f *.cpp *.h *.o *~ || true
 
 	@cp ../ressources/simpleMain.cpp .
+
 	@cp ../ressources/integer_declaration.g4 ./grammar
 
 	@cp ../ressources/MakefileGrammar ./grammar
@@ -181,6 +184,8 @@ new_grammar: #should add some kind of verifications
 	@mv ./src/MakefileSrc ./src/Makefile
 
 	@./scripts/makefile_scripts/grammarNameReplace.py
+
+	@mv simpleMain.cpp $(SIMPLEMAIN_NAME) #switch name after simpleMain is modified by the script
 
 	@echo "Grammar squeletton available in ./grammar"
 .PHONY : new_grammar
