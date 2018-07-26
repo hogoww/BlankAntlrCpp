@@ -1,2 +1,5 @@
 #Need to add main name modularity.
+
 #Improve the simple main for easier use
+
+#if grammar in grammar/*.g4 != makefile $(grammar_name), take the first one and addapt files (ONLY when using make new_grammar)

@@ -23,32 +23,45 @@ PROJECT_SOURCES=src/
 PROJECT_OBJECTS=obj/
 TEST_DIRECTORY=tests/
 
-default_target: inane
+default_target: project #generaly more usefull in the developpement process
 .PHONY : default_target
 
-inane_sources:
+#############################################
+#Build the external files to be linked later#
+#############################################
+project_sources_compilation:
 	cd $(PROJECT_SOURCES) &&\
 	 $(CC) $(GRAMMAR_HEADER_SURDIR) $(PROJECT_RUNTIMER_PROJECT) $(ANTLR_HEADERS_SURDIR) $(PROJECT_OPTIONS) -c *.cpp &&\
 	 mv *.o ../$(PROJECT_OBJECTS)
-.PHONY : inane_sources
+.PHONY : project_sources_compilation
 
-#build only the Inane project
-inane:
-	@echo "--------------------------"
-	@echo "|Generating Inane Project|"
-	@echo "--------------------------"
-	@make inane_sources
+#############################
+#Build only the project part#
+#############################
+project:
+	@echo "---------------------"
+	@echo "|Generating Project |"
+	@echo "---------------------"
+	@make project_sources_compilation
 	@rm $(GRAMMAR_PATH)main.o $(GRAMMAR_PATH)simpleMain.o 2>>/dev/null || true #doesn't let that lines error stop compilation. It's not supposed to exist on the first build.
 	$(CC) $(ANTLR_HEADERS) -I $(PROJECT_PROJECT) $(GRAMMAR_PATH) $(PROJECT_OPTIONS) -c main.cpp
 #	@mv main.o $(GRAMMAR_PATH)
 	@make linking
-.PHONY : inane
+	@echo ""
+	@echo "Compilation of the project finished!"
+.PHONY : project
 
 linking:
 	$(CC) $(ANTLR_HEADERS) $(ANTLR_RUNTIME_OBJECT) $(PROJECT_RUNTIME_OBJECTS) $(GRAMMAR_OBJECT_PATH)*.o $(PROJECT_OPTIONS) main.o -o main
+	@echo ""
+	@echo "Compilation of the project finished!"
 .PHONY:linking
 
-#"clean grammar", build the grammar with the antlr tool.
+#######################################
+#clean the grammar before compiling it#
+#######################################
+
+#"clean grammar"
 cg: 
 	@echo "--------------------------"
 	@echo "|Generating clean grammar|"
@@ -58,6 +71,11 @@ cg:
 #	$(GRAMMAR_PATH)/parseur_correction.py
 	@make gc
 .PHONY : cg
+
+
+##########################
+#Grammar Compilation Unit#
+##########################
 
 #"Grammar compilation"
 gc:
@@ -71,12 +89,21 @@ gc:
 	mv $(GRAMMAR_PATH)$(GRAMMAR_NAME)*.o $(GRAMMAR_PATH)obj/ 
 .PHONY : gc
 
+###################################################################
+#Clean working directory and redo every compilation unit necessary#
+###################################################################
+
 #"clean compilation"
 cc:
 	@make clean
 	@make all
 .PHONY : cc
 
+##############################################################
+#Clean the working directories of objects and temporary files#
+##############################################################
+
+#"clean working directories"
 clean:
 	@echo "----------------------"
 	@echo "|Cleaning directories|"
@@ -87,12 +114,18 @@ clean:
 	@rm -f *~ \#* || true
 .PHONY : clean
 
+############################################################################
+#remove everything but the grammar file and makefile from grammar directory#
+############################################################################
+
 clean_grammar_directory:
 	@cd $(GRAMMAR_PATH) && rm -f *.cpp *.h *.o *.tokens *~ \#* 2>>/dev/null || true
 	@cd $(GRAMMAR_OBJECT_PATH) && rm -f *.o || true
 .PHONY : clean_grammar_directory
 
-#little main to do only checks on how grammar behaves
+###############################################
+#clean grammar build, and link with basic main#
+###############################################
 grammar_test:
 	@echo "------------------------------"
 	@echo "|Building simple grammar_test|"
@@ -102,15 +135,25 @@ grammar_test:
 #	@mv simpleMain.o $(GRAMMAR_PATH)
 	$(CC) $(ANTLR_HEADERS) $(ANTLR_RUNTIME_OBJECT) $(PROJECT_RUNTIME_OBJECTS) $(GRAMMAR_OBJECT_PATH)*.o $(PROJECT_OPTIONS) simpleMain.o -o simpleMain
 #	$(CC) $(ANTLR_HEADERS) $(ANTLR_RUNTIME_OBJECT) $(GRAMMAR_PATH)*.o $(PROJECT_OPTIONS) -o simpleMain
-
 .PHONY: grammar_test
 
+
+##############################################################
+#          Used the first time the project's build           #
+#Clean up everything, and recompile every part of the project#
+##############################################################
 all:
 	@make cg
-	@make inane
+	@make project
 .PHONY : all
 
+
+#####################################################
+#Rule used to initialize directory for a new grammar#
+#   /!\   DO NOT USE ON WORKING DIRECTORY    /!\    #
+#####################################################
 new_grammar: #should add some kind of verifications
+
 	@rm -rf $(PROJECT_OBJECTS)* 2>>/dev/null || true
 	@cd $(PROJECT_OBJECTS) && echo "file used so the repositories keep existing empty on git" >> bogus.txt
 
@@ -129,5 +172,15 @@ new_grammar: #should add some kind of verifications
 	@rm -f *.cpp *.h *.o *~ || true
 
 	@cp ../ressources/simpleMain.cpp .
+	@cp ../ressources/integer_declaration.g4 ./grammar
+
+	@cp ../ressources/MakefileGrammar ./grammar
+	@mv ./grammar/MakefileGrammar ./grammar/Makefile
+
+	@cp ../ressources/MakefileSrc ./src
+	@mv ./src/MakefileSrc ./src/Makefile
+
 	@./scripts/makefile_scripts/grammarNameReplace.py
+
+	@echo "Grammar squeletton available in ./grammar"
 .PHONY : new_grammar
