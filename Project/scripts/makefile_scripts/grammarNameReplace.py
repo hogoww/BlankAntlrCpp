@@ -41,7 +41,7 @@ someRule
 
 Lexer_rule
     :
-    "something"
+    'something'
     ;
     """)
     output_file.close()
